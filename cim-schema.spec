@@ -39,7 +39,7 @@ Name:           cim-schema
 Url:            http://www.dmtf.org/
 Summary:        Common Information Model (CIM) Schema
 Version:        %{major}.%{minor}.%{update}
-Release:        5%{?dist}
+Release:        6%{?dist}
 Group:          Development/Libraries
 License:        DMTF
 Source0:        http://www.dmtf.org/standards/cim/cim_schema_v%{major}%{minor}%{update}/cim_schema_%{version}Experimental-MOFs.zip
@@ -104,6 +104,9 @@ cp -a %{SOURCE2} $RPM_BUILD_ROOT/%{_docdir}/%{name}-%{version}
 %doc ../%{name}-%{version}-docs/*
 
 %changelog
+* Fri Dec 27 2013 Daniel Mach <dmach@redhat.com> - 2.33.0-6
+- Mass rebuild 2013-12-27
+
 * Mon Jul 22 2013 Vitezslav Crhonek <vcrhonek@redhat.com> - 2.33.0-5
 - Fix package to be able do local build
 
