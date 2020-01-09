@@ -31,19 +31,21 @@
 
 # norootforbuild
 
+%global major 2
+%global minor 33
+%global update 0
+
 Name:           cim-schema
 Url:            http://www.dmtf.org/
 Summary:        Common Information Model (CIM) Schema
-Version:        2.22.0
-Release:        2.1%{?dist}
+Version:        %{major}.%{minor}.%{update}
+Release:        1%{?dist}
 Group:          Development/Libraries
 License:        DMTF
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
-Source0:        http://www.dmtf.org/standards/cim/cim_schema_v2220/cim_schema_%{version}Experimental-MOFs.zip
-Source1:        http://www.dmtf.org/standards/cim/cim_schema_v2220/cim_schema_%{version}Experimental-Doc.zip
-Source2:        loadmof.sh
-Source3:        rmmof.sh
-Source4:        LICENSE
+Source0:        http://www.dmtf.org/standards/cim/cim_schema_v%{major}%{minor}%{update}/cim_schema_%{version}Experimental-MOFs.zip
+Source1:        http://www.dmtf.org/standards/cim/cim_schema_v%{major}%{minor}%{update}/cim_schema_%{version}Experimental-Doc.zip
+Source2:        LICENSE
 BuildArch:      noarch
 
 %package docs
@@ -70,7 +72,6 @@ Common Information Model (CIM) schema documentation.
 %prep
 %setup -q -T -a 1 -c -n %{name}-%{version}-docs
 %setup -q -T -a 0 -c -n %{name}-%{version}
-cp -a %{SOURCE4} ..
 
 %build
 %install
@@ -87,8 +88,8 @@ chmod -R a+rX .
 ln -s cimv%{version} $RPM_BUILD_ROOT/$MOFDIR/cim-current
 ln -s cim_schema_%{version}.mof $RPM_BUILD_ROOT/$MOFDIR/cim-current/CIM_Schema.mof
 install -d $RPM_BUILD_ROOT/usr/bin
-install -m 755 %{S:2} $RPM_BUILD_ROOT/usr/bin/
-install -m 755 %{S:3} $RPM_BUILD_ROOT/usr/bin/
+mkdir -p $RPM_BUILD_ROOT/%{_docdir}/%{name}-%{version}
+cp -a %{SOURCE2} $RPM_BUILD_ROOT/%{_docdir}/%{name}-%{version}
 
 %clean
 %__rm -rf $RPM_BUILD_ROOT
@@ -99,15 +100,17 @@ install -m 755 %{S:3} $RPM_BUILD_ROOT/usr/bin/
 %dir /usr/share/mof/cimv%{version}
 /usr/share/mof/cimv%{version}/*
 /usr/share/mof/cim-current
-/usr/bin/loadmof.sh
-/usr/bin/rmmof.sh
-%doc ../LICENSE
+%doc %{_docdir}/%{name}-%{version}/LICENSE
 
 %files docs
 %defattr(-, root, root)
 %doc ../%{name}-%{version}-docs/*
 
 %changelog
+* Wed Dec 10 2014 Vitezslav Crhonek <vcrhonek@redhat.com> - 2.33.0-1
+- Update to CIM Schema 2.33.0, including experimental classes
+  Resolves: #1087888
+
 * Mon Nov 30 2009 Dennis Gregorovic <dgregor@redhat.com> - 2.22.0-2.1
 - Rebuilt for RHEL 6
 
